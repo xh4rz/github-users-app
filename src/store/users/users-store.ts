@@ -33,7 +33,12 @@ export const useUsersStore = create<State>()(
 				);
 
 				if (items.length !== 0) {
-					set({ users: items, saveUserSearch: user });
+					const dataUsers = items.map(({ login, id, avatar_url }) => ({
+						login,
+						id,
+						avatar_url
+					}));
+					set({ users: dataUsers, saveUserSearch: user });
 					await timeout(2000);
 					showToast(`Se ha encontrado información.`, 'success');
 				} else {

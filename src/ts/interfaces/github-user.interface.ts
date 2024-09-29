@@ -6,5 +6,5 @@ export interface IGitHubUser {
 	public_repos: number;
 	followers: number;
 	following: number;
-	created_at: Date;
+	created_at: Date | string;
 }

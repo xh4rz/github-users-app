@@ -18,12 +18,15 @@ export default function UserProfilePage({
 	const { getUser, user, loadingUser, cleanUser } = useUserStore();
 
 	useEffect(() => {
-		getUser(params.user, router);
+		getUser(params.user);
+
+		return () => {
+			cleanUser();
+		};
 	}, [params.user]);
 
 	const handleBack = () => {
 		router.push('/');
-		cleanUser();
 	};
 
 	if (loadingUser) {

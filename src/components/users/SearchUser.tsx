@@ -1,24 +1,25 @@
 'use client';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useUsersStore } from '@/store/users/users-store';
 import { Grid2, TextField } from '@mui/material';
 import { CustomButton } from '../button/CustomButton';
-import { userStore } from '@/store/userStore';
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import ClearIcon from '@mui/icons-material/Clear';
+import { useEffect } from 'react';
 
 type FormSearchValues = {
 	user: string;
 };
 
 export const SearchUser = () => {
-	const { getUsers, cleanUsers } = userStore();
+	const { getUsers, cleanUsers, saveUserSearch } = useUsersStore();
 
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
-
+		setValue,
 		reset
 	} = useForm<FormSearchValues>({
 		mode: 'onChange'
@@ -32,6 +33,12 @@ export const SearchUser = () => {
 		reset();
 		cleanUsers();
 	};
+
+	useEffect(() => {
+		if (saveUserSearch) {
+			setValue('user', saveUserSearch);
+		}
+	}, [saveUserSearch]);
 
 	return (
 		<Grid2

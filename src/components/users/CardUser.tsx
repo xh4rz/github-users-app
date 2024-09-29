@@ -1,18 +1,21 @@
 'use client';
 
 import Image from 'next/image';
-import { userStore } from '@/store/userStore';
+import { useRouter } from 'next/navigation';
+import { useUsersStore } from '@/store/users/users-store';
 import { Card, CardContent, Grid2, Skeleton, Typography } from '@mui/material';
 import { CustomButton } from '../button/CustomButton';
 import { secondaryColorRgb } from '../themeRegistry/theme';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
 export const CardUser = () => {
-	const { users, loadingUsers } = userStore();
+	const router = useRouter();
+
+	const { users, loadingUsers } = useUsersStore();
 
 	return (
 		<Grid2 container justifyContent="center" spacing={2}>
-			{users.map(({ id, avatar_url, login }) => (
+			{users.map(({ id, avatar_url, login: username }) => (
 				<Grid2
 					key={id}
 					size={{ xs: 12, md: 6, lg: 3, xl: 2 }}
@@ -58,10 +61,11 @@ export const CardUser = () => {
 								style={{
 									borderRadius: '50%'
 								}}
+								priority
 							/>
 
 							<Typography variant="subtitle1" fontSize={20}>
-								{login}
+								{username}
 							</Typography>
 
 							<CustomButton
@@ -69,6 +73,7 @@ export const CardUser = () => {
 								variant="outlined"
 								color="secondary"
 								icon={VisibilityIcon}
+								onHandleClick={() => router.push(`/${username}`)}
 							/>
 						</Card>
 					)}

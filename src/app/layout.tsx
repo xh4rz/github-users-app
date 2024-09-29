@@ -4,7 +4,7 @@ import { AppBar } from '@/components/ui';
 import './globals.css';
 
 export const metadata: Metadata = {
-	title: 'Github Users App',
+	title: 'GitHub Usuarios App',
 	description: 'aplicacion busqueda usuarios'
 };
 

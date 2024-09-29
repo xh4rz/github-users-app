@@ -1,4 +1,4 @@
-export interface IGitHubUser {
+export interface IGitHubUsers {
 	total_count: number;
 	incomplete_results: boolean;
 	items: IUser[];

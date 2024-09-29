@@ -2,26 +2,28 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { showToast, timeout } from '@/utils';
 import axios, { AxiosError } from 'axios';
-import type { IGitHubUser, IUser } from '@/ts/interfaces';
+import type { IGitHubUsers, IUser } from '@/ts/interfaces';
 
 interface State {
 	users: IUser[];
 	cleanUsers: () => void;
 	loadingUsers: boolean;
 	getUsers: (user: string) => Promise<void>;
+	saveUserSearch: string;
 }
 
-export const userStore = create<State>()(
+export const useUsersStore = create<State>()(
 	devtools((set) => ({
 		users: [],
 		loadingUsers: false,
+		saveUserSearch: '',
 		getUsers: async (user: string) => {
 			set({ loadingUsers: true });
 
 			try {
 				const {
 					data: { items }
-				} = await axios.get<IGitHubUser>(
+				} = await axios.get<IGitHubUsers>(
 					'https://api.github.com/search/users',
 					{
 						params: {
@@ -31,7 +33,7 @@ export const userStore = create<State>()(
 				);
 
 				if (items.length !== 0) {
-					set({ users: items });
+					set({ users: items, saveUserSearch: user });
 					await timeout(2000);
 					showToast(`Se ha encontrado información.`, 'success');
 				} else {

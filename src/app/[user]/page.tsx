@@ -19,6 +19,7 @@ import { secondaryColorRgb } from '@/components/themeRegistry/theme';
 import { clearToast } from '@/utils';
 import ReplyIcon from '@mui/icons-material/Reply';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import { Repositories } from '@/components/user/Repositories';
 
 export default function UserProfilePage({
 	params
@@ -241,6 +242,10 @@ export default function UserProfilePage({
 							)}
 						</CardContent>
 					</Card>
+
+					<Box mt={5}>
+						<Repositories />
+					</Box>
 				</Box>
 			)}
 		</>

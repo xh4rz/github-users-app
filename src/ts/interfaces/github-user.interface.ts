@@ -8,3 +8,12 @@ export interface IGitHubUser {
 	following: number;
 	created_at: Date;
 }
+
+export interface IGitHubUserRepositories {
+	id: number;
+	full_name: string;
+	html_url: string;
+	language: string;
+	stargazers_count: number;
+	forks: number;
+}

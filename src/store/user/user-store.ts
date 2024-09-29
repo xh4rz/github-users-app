@@ -1,15 +1,18 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { showToast, timeout } from '@/utils';
-import { IGitHubUser } from '@/ts/interfaces/github-user.interface';
+import {
+	IGitHubUser,
+	IGitHubUserRepositories
+} from '@/ts/interfaces/github-user.interface';
 import axiosClient from '@/axios/axiosClient';
-import { AxiosError } from 'axios';
 
 interface State {
 	user: IGitHubUser;
 	loadingUser: boolean;
 	getUser: (user: string) => Promise<void>;
 	cleanUser: () => void;
+	repositories: IGitHubUserRepositories[];
 }
 
 const initialUser = {
@@ -26,6 +29,7 @@ const initialUser = {
 export const useUserStore = create<State>()(
 	devtools((set) => ({
 		user: initialUser,
+		repositories: [],
 		loadingUser: true,
 		getUser: async (user: string) => {
 			set({ loadingUser: true });
@@ -46,6 +50,10 @@ export const useUserStore = create<State>()(
 					}
 				} = await axiosClient.get<IGitHubUser>(`/users/${user}`);
 
+				const { data: dataRepos } = await axiosClient.get<
+					IGitHubUserRepositories[]
+				>(`/users/${user}/repos`);
+
 				const dataUser = {
 					login,
 					avatar_url,
@@ -57,7 +65,20 @@ export const useUserStore = create<State>()(
 					created_at
 				};
 
+				const dataRepositories = dataRepos.map(
+					({ id, full_name, html_url, forks, language, stargazers_count }) => ({
+						id,
+						full_name,
+						html_url,
+						forks,
+						language,
+						stargazers_count
+					})
+				);
+
 				set({ user: dataUser });
+
+				set({ repositories: dataRepositories });
 
 				showToast(
 					`Se ha encontrado información del usuario: ${user}`,
@@ -74,7 +95,8 @@ export const useUserStore = create<State>()(
 		},
 		cleanUser: () => {
 			set({
-				user: initialUser
+				user: initialUser,
+				repositories: []
 			});
 		}
 	}))

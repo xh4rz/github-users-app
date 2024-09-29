@@ -47,10 +47,11 @@ export const SearchUser = () => {
 					required
 					fullWidth
 					autoFocus
+					type="text"
 					size="medium"
 					variant="outlined"
 					placeholder="Ingrese usuario de GitHub..."
-					type="text"
+					autoComplete="off"
 					{...register('user', {
 						required: 'Campo requerido'
 					})}
@@ -68,6 +69,7 @@ export const SearchUser = () => {
 					title="Limpiar"
 					icon={ClearIcon}
 					type="reset"
+					color="error"
 					onHandleClick={handleReset}
 				/>
 			</Grid2>

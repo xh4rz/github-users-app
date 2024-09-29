@@ -16,7 +16,7 @@ export const showToast = (
 	};
 
 	toastType(variant)!(message, {
-		position: 'bottom-center',
+		position: 'bottom-left',
 		autoClose: 5000,
 		hideProgressBar: false,
 		closeOnClick: true,

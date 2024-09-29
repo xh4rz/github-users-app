@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { showToast } from '@/utils';
+import { showToast, timeout } from '@/utils';
 import axios, { AxiosError } from 'axios';
 import type { IGitHubUser, IUser } from '@/ts/interfaces';
 
@@ -32,6 +32,7 @@ export const userStore = create<State>()(
 
 				if (items.length !== 0) {
 					set({ users: items });
+					await timeout(2000);
 					showToast(`Se ha encontrado información.`, 'success');
 				} else {
 					set({ users: [] });

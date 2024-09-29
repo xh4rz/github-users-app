@@ -1,5 +1,4 @@
 import { Button, SvgIconTypeMap } from '@mui/material';
-import { primaryColor } from '../themeRegistry/theme';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 
 interface Props {
@@ -9,7 +8,7 @@ interface Props {
 	};
 	type?: 'reset' | 'submit' | 'button';
 	variant?: 'contained' | 'outlined' | 'text';
-	color?: 'primary' | 'secondary';
+	color?: 'primary' | 'secondary' | 'error';
 	onHandleClick?: () => void;
 }
 
@@ -28,13 +27,7 @@ export const CustomButton = ({
 			type={type}
 			color={color}
 			sx={{
-				textTransform: 'capitalize',
-				bgcolor:
-					type === 'reset'
-						? '#F44336'
-						: variant === 'contained'
-						? primaryColor
-						: ''
+				textTransform: 'capitalize'
 			}}
 			startIcon={<Icon />}
 			onClick={onHandleClick}

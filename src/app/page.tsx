@@ -1,5 +1,4 @@
 import { Grid2 } from '@mui/material';
-
 import { SearchUser, CardUser } from '@/components/users';
 
 export default function UsersPage() {

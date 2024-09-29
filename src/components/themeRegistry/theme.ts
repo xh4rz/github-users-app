@@ -11,7 +11,8 @@ const theme = createTheme({
 		}
 	},
 	typography: {
-		fontFamily: "'Futura Md BT', sans-serif"
+		fontFamily:
+			'-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji"'
 	}
 });
 

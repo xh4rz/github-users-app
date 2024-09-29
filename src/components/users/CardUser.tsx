@@ -7,11 +7,17 @@ import { Card, CardContent, Grid2, Skeleton, Typography } from '@mui/material';
 import { CustomButton } from '../button/CustomButton';
 import { secondaryColorRgb } from '../themeRegistry/theme';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import { clearToast } from '@/utils';
 
 export const CardUser = () => {
 	const router = useRouter();
 
 	const { users, loadingUsers } = useUsersStore();
+
+	const handleClick = (username: string) => {
+		router.push(`/${username}`);
+		clearToast();
+	};
 
 	return (
 		<Grid2 container justifyContent="center" spacing={2}>
@@ -73,7 +79,7 @@ export const CardUser = () => {
 								variant="outlined"
 								color="secondary"
 								icon={VisibilityIcon}
-								onHandleClick={() => router.push(`/${username}`)}
+								onHandleClick={() => handleClick(username)}
 							/>
 						</Card>
 					)}

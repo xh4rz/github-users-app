@@ -1,9 +1,9 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { timeout } from '@/utils';
-import axios from 'axios';
+import { showToast, timeout } from '@/utils';
 import { IGitHubUser } from '@/ts/interfaces/github-user.interface';
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import axiosClient from '@/axios/axiosClient';
+import { AxiosError } from 'axios';
 
 interface State {
 	user: IGitHubUser;
@@ -15,12 +15,12 @@ interface State {
 const initialUser = {
 	login: '',
 	avatar_url: '',
-	url: '',
+	html_url: '',
 	name: '',
 	public_repos: 0,
 	followers: 0,
 	following: 0,
-	created_at: ''
+	created_at: new Date()
 };
 
 export const useUserStore = create<State>()(
@@ -37,21 +37,19 @@ export const useUserStore = create<State>()(
 					data: {
 						login,
 						avatar_url,
-						url,
+						html_url,
 						name,
 						public_repos,
 						followers,
 						following,
 						created_at
 					}
-				} = await axios.get<IGitHubUser>(
-					`https://api.github.com/users/${user}`
-				);
+				} = await axiosClient.get<IGitHubUser>(`/users/${user}`);
 
 				const dataUser = {
 					login,
 					avatar_url,
-					url,
+					html_url,
 					name,
 					public_repos,
 					followers,
@@ -60,7 +58,16 @@ export const useUserStore = create<State>()(
 				};
 
 				set({ user: dataUser });
+
+				showToast(
+					`Se ha encontrado información del usuario: ${user}`,
+					'success'
+				);
 			} catch (error) {
+				showToast(
+					`No se ha encontrado información del usuario: ${user}`,
+					'error'
+				);
 			} finally {
 				set({ loadingUser: false });
 			}

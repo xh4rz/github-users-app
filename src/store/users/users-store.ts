@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { showToast, timeout } from '@/utils';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
+import axiosClient from '@/axios/axiosClient';
 import type { IGitHubUsers, IUser } from '@/ts/interfaces';
 
 interface State {
@@ -23,14 +24,11 @@ export const useUsersStore = create<State>()(
 			try {
 				const {
 					data: { items }
-				} = await axios.get<IGitHubUsers>(
-					'https://api.github.com/search/users',
-					{
-						params: {
-							q: user
-						}
+				} = await axiosClient.get<IGitHubUsers>('/search/users', {
+					params: {
+						q: user
 					}
-				);
+				});
 
 				if (items.length !== 0) {
 					const dataUsers = items.map(({ login, id, avatar_url }) => ({
@@ -40,7 +38,7 @@ export const useUsersStore = create<State>()(
 					}));
 					set({ users: dataUsers, saveUserSearch: user });
 					await timeout(2000);
-					showToast(`Se ha encontrado información.`, 'success');
+					showToast('Se ha encontrado información.', 'success');
 				} else {
 					set({ users: [] });
 					showToast('No se ha encontrado información.', 'error');

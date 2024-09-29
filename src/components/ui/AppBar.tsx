@@ -13,7 +13,7 @@ export const AppBar = ({ children }: { children: React.ReactNode }) => {
 					priority
 				/>
 
-				<Typography ml={2} variant="h5">
+				<Typography ml={2} variant="h4">
 					GitHub Usuarios
 				</Typography>
 			</Box>

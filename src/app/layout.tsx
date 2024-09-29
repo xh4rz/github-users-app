@@ -1,11 +1,10 @@
 import type { Metadata } from 'next';
 import Providers from '@/components/themeRegistry/Providers';
 import { AppBar } from '@/components/ui';
-import './globals.css';
 
 export const metadata: Metadata = {
 	title: 'GitHub Usuarios App',
-	description: 'aplicacion busqueda usuarios'
+	description: 'Aplicación búsqueda de usuarios'
 };
 
 export default function RootLayout({

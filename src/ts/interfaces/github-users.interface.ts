@@ -1,5 +1,6 @@
 export interface IGitHubUsers {
 	items: IUser[];
+	total_count: number;
 }
 
 export interface IUser {

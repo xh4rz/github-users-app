@@ -9,8 +9,9 @@ interface State {
 	users: IUser[];
 	cleanUsers: () => void;
 	loadingUsers: boolean;
-	getUsers: (user: string) => Promise<void>;
+	getUsers: (user: string, page: number) => Promise<void>;
 	saveUserSearch: string;
+	totalCount: number;
 }
 
 export const useUsersStore = create<State>()(
@@ -18,15 +19,19 @@ export const useUsersStore = create<State>()(
 		users: [],
 		loadingUsers: false,
 		saveUserSearch: '',
-		getUsers: async (user: string) => {
+		totalCount: 0,
+		getUsers: async (user: string, page: number) => {
 			set({ loadingUsers: true });
 
 			try {
 				const {
-					data: { items }
+					data: { items, total_count }
 				} = await axiosClient.get<IGitHubUsers>('/search/users', {
 					params: {
-						q: user
+						q: user,
+						page,
+						per_page: 30,
+						order: 'asc'
 					}
 				});
 
@@ -36,11 +41,19 @@ export const useUsersStore = create<State>()(
 						id,
 						avatar_url
 					}));
-					set({ users: dataUsers, saveUserSearch: user });
+
+					set({
+						users: dataUsers,
+						totalCount: total_count,
+						saveUserSearch: user
+					});
+
 					await timeout(2000);
+
 					showToast('Se ha encontrado información.', 'success');
 				} else {
-					set({ users: [] });
+					set({ users: [], totalCount: 0 });
+
 					showToast('No se ha encontrado información.', 'error');
 				}
 			} catch (error) {
@@ -56,7 +69,7 @@ export const useUsersStore = create<State>()(
 			}
 		},
 		cleanUsers: () => {
-			set({ users: [] });
+			set({ users: [], totalCount: 0 });
 		}
 	}))
 );

@@ -26,7 +26,7 @@ export const SearchUser = () => {
 	});
 
 	const onSubmit: SubmitHandler<FormSearchValues> = async (data) => {
-		getUsers(data.user);
+		getUsers(data.user, 1);
 	};
 
 	const handleReset = () => {

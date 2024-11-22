@@ -1,5 +1,5 @@
 import { Grid2 } from '@mui/material';
-import { SearchUser, CardUser } from '@/components/users';
+import { SearchUser, CardUser, PaginationUser } from '@/components/users';
 
 export default function UsersPage() {
 	return (
@@ -10,6 +10,10 @@ export default function UsersPage() {
 
 			<Grid2 size={12}>
 				<CardUser />
+			</Grid2>
+
+			<Grid2>
+				<PaginationUser />
 			</Grid2>
 		</Grid2>
 	);
